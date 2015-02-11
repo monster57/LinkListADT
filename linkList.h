@@ -30,3 +30,5 @@ int indexOf(LinkList, void *);
 void * deleteElementAt(LinkList *, int);
 
 int asArray(LinkList, void **);
+
+LinkList * filter(LinkList, int (*)(void *));

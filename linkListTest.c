@@ -312,6 +312,15 @@ void test_get_first_element_should_get_the_first_double_element_from_the_linked_
 	assertEqual((*(double *)result), (double)2.2);
 	free(node);	
 }
+void test_get_first_element_should_get_the_first_lon_int_element_from_the_linked_list(){
+	long int a = 123456789, *result;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	result = get_first_element(list);
+	assertEqual((*(long int *)result), (long int)123456789);
+	free(node);	
+}
 void get_first_element_will_returns_null_if_no_element_in_a_List(){
 	int *result;
 	LinkList list = createList();
@@ -821,4 +830,279 @@ void test_deleteElement_delete_the_last_element_and_tail_should_be_changed(){
 	free(firstNode);
 	free(secondNode);
 	free(thirdNode);				
+}
+
+void test_asArray_should_create_an_array_of_length_same_as_the_number_of_node_in_the_list(){
+	LinkList list = createList();
+	int a=2,b=3,c=4 , count;
+	void **array;
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	array = malloc(list.numOfElements*sizeof(int*));
+	count = asArray(list,array);
+	assertEqual(count, 3);
+	assertEqual(*(int*)array[0],2);
+	free(array);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);					
+}
+
+void test_asArray_should_create_an_array_of_integer_type(){
+	LinkList list = createList();
+	int a=2,b=3,c=4 , count;
+	void **array;
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	array = malloc(list.numOfElements*sizeof(int*));
+	count = asArray(list,array);
+	assertEqual(*(int*)array[0],2);
+	assertEqual(*(int*)array[1],3);
+	assertEqual(*(int*)array[2],4);
+	free(array);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);					
+}
+
+void test_asArray_should_create_an_array_of_float_type(){
+	LinkList list = createList();
+	float a=2.3,b=3.4,c=4.5 ;
+	int count;
+	void **array;
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	array = malloc(list.numOfElements*sizeof(float*));
+	count = asArray(list,array);
+	assertEqual(*(float*)array[0],(float)2.3);
+	assertEqual(*(float*)array[1],(float)3.4);
+	assertEqual(*(float*)array[2],(float)4.5);
+	free(array);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);					
+}
+void test_asArray_should_create_an_array_of_char_type(){
+	LinkList list = createList();
+	char a='a',b='b',c='c';
+	int count;
+	void **array;
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	array = malloc(list.numOfElements*sizeof(char*));
+	count = asArray(list,array);
+	assertEqual(*(char*)array[0],'a');
+	assertEqual(*(char*)array[1],'b');
+	assertEqual(*(char*)array[2],'c');
+	free(array);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);					
+}
+void test_asArray_should_create_an_array_of_signed_char_type(){
+	LinkList list = createList();
+	signed char a=100,b=101,c=102;
+	int count;
+	void **array;
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	array = malloc(list.numOfElements*sizeof(signed char*));
+	count = asArray(list,array);
+	assertEqual(*(signed char*)array[0],(signed char)100);
+	assertEqual(*(signed char*)array[1],(signed char)101);
+	assertEqual(*(signed char*)array[2],(signed char)102);
+	free(array);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);					
+}
+void test_asArray_should_create_an_array_of_unsigned_char_type(){
+	LinkList list = createList();
+	unsigned char a=255,b=254,c=253 ;
+	unsigned char count;
+	void **array;
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	array = malloc(list.numOfElements*sizeof(unsigned char*));
+	count = asArray(list,array);
+	assertEqual(*(unsigned char*)array[0],(unsigned char)255);
+	assertEqual(*(unsigned char*)array[1],(unsigned char)254);
+	assertEqual(*(unsigned char*)array[2],(unsigned char)253);
+	free(array);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);					
+}
+
+void test_asArray_should_create_an_array_of_double_type(){
+	LinkList list = createList();
+	double a=2.4,b=3.6,c=4.8;
+	int count;
+	void **array;
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	array = malloc(list.numOfElements*sizeof(double*));
+	count = asArray(list,array);
+	assertEqual(*(double*)array[0],(double)2.4);
+	assertEqual(*(double*)array[1],(double)3.6);
+	assertEqual(*(double*)array[2],(double)4.8);
+	free(array);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);					
+}
+void test_asArray_should_create_an_array_of_long_int_type(){
+	LinkList list = createList();
+	long int a=123456789,b=123456788,c=123456787;
+	int count;
+	void **array;
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	array = malloc(list.numOfElements*sizeof(long int*));
+	count = asArray(list,array);
+	assertEqual(*(long int*)array[0],123456789);
+	assertEqual(*(long int*)array[1],123456788);
+	assertEqual(*(long int*)array[2],123456787);
+	free(array);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);					
+}
+
+void test_asArray_should_pass_the_list_head_to_first_index(){
+	LinkList list = createList();
+	int a=2,b=3,c=4 , count;
+	void **array;
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	array = malloc(list.numOfElements*sizeof(int*));
+	count = asArray(list,array);
+	assertEqual(*(int*)list.head->data, 2);
+	assertEqual(*(int*)array[0],2);
+	free(array);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);						
+}
+
+void test_asArray_should_pass_the_list_tail_to_last_index(){
+	LinkList list = createList();
+	int a=2,b=3,c=4 , count;
+	void **array;
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	array = malloc(list.numOfElements*sizeof(int*));
+	count = asArray(list,array);
+	assertEqual(*(int*)list.tail->data, 4);
+	assertEqual(*(int*)array[2],4);
+	free(array);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);						
+}
+
+void test_asArray_should_return_NULL_for_empty_list(){
+	LinkList list = createList();
+	void **array;
+	int count;
+	array = malloc(list.numOfElements*sizeof(int*));
+	count = asArray(list,array);
+	assertEqual(count, 0);
+}
+
+void test_asArray_should_give_the_length_same_as_the_no_of_element_of_the_link_list(){
+	LinkList list = createList();
+	int a=2,b=3,c=4 , count;
+	void **array;
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	array = malloc(list.numOfElements*sizeof(int*));
+	count = asArray(list,array);
+	assertEqual(count, list.numOfElements);
+	free(array);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);							
+}
+int greaterThan5(void *data){
+	return *(char*)data>5;
+}
+void test_filter_should_give_all_the_elements_which_are_graeter_than_5(){
+	LinkList list = createList();
+	LinkList *filtered_list;
+	int a=4,b=5,c=6, d=7;
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	Node *fourthNode = create_node(&d);
+
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	add_to_list(&list, fourthNode);
+	filtered_list = filter(list,  greaterThan5);
+	assertEqual(*((int *)getElementAt(*filtered_list,0)),6);
+	assertEqual(*((int *)getElementAt(*filtered_list,1)),7);
+}
+
+void test_filter_should_give_null_for_false_condition(){
+	LinkList list = createList();
+	LinkList *filtered_list;
+	int a=4,b=5,c=3, d=2;
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	Node *fourthNode = create_node(&d);
+
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	add_to_list(&list, fourthNode);
+	filtered_list = filter(list,  greaterThan5);
+	assertEqual(list.numOfElements,4);
+	assertEqual(filtered_list->numOfElements,0);
 }

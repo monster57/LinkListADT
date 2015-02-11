@@ -74,3 +74,23 @@ void * deleteElementAt(LinkList *list, int index){
 	// free(previousNode);
 	return data;
 }
+
+int asArray(LinkList list, void **array){
+	int counter=0;
+	Node *node = list.head;
+	for(;node;node=node->next){
+		(array)[counter] = node->data;
+		counter++;
+	}
+	free(node);
+	return counter;
+}
+
+LinkList * filter(LinkList list, int (*func)(void *data)){
+	Node *node = list.head;
+	LinkList *new_list = calloc(sizeof(LinkList) ,1);
+	for(;node;node = node->next){
+		func(node->data) && add_to_list(new_list, node);
+	}
+	return new_list;
+}
