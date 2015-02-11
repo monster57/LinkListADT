@@ -1,714 +1,824 @@
+typedef char* string;
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
-#include <math.h>
 #include <string.h>
 #include "expr_assert.h"
 #include "linkList.h"
 
+void test_createList_create_a_empty_link_list(){
+	LinkList new_list;
+	new_list = createList();
+	assertEqual(((int)new_list.head), 0);
+	assertEqual(((int)new_list.tail), 0);
+	assertEqual(new_list.numOfElements,0);
+}
 
-#define log(test_description) int log = printf("\t  ==>%s\n\n", test_description)
-#define string char*
-int number;
-void *data = &number;
-Node_ptr new_node,new_node2;
-LinkedList list;
-LinkedList_ptr list_ptr;
-void test_create_node_creates_a_node_that_returns_the_address_of_the_node_for_int_type(){
-	number = 10;
-	new_node = create_node(data);
+void test_create_node_create_a_new_node(){
+	Node *new_node;
+	int a = 10;
+	new_node = create_node(&a);
 	assert(new_node!=NULL);
 	free(new_node);
 }
-
-void test_create_node_create_a_new_node_that_intializes_data_of_int_type(){
-	number = 10;
-	new_node = create_node(data);
-	assertEqual(*(int*)new_node->data, number);
+void test_create_node_returns_0_if_data_is_NULL(){
+	Node *new_node;
+	int a = 0;
+	new_node = create_node(&a);
+	assert(new_node == NULL);
 	free(new_node);
 }
-
-void test_create_node_creates_a_new_node_that_initializes_next_to_null_of_int_type(){
-	number = 10;
-	new_node = create_node(data);
-	assertEqual((int)new_node->next, 0);
+void test_create_node_create_a_new_node_with_data_value_15(){
+	int a = 15;
+	Node *new_node = create_node(&a);
+	assertEqual(*(int*)new_node->data, a);
 	free(new_node);
 }
+void test_create_node_create_a_new_node_with_float_data_type(){
+	float a = 12.2;
+	Node *new_node = create_node(&a);
+	assertEqual(*(float*)new_node->data, a);
+	free(new_node);
+}
+void test_create_node_create_a_new_node_with_char_data_type(){
+	char a = 'a';
+	Node *new_node = create_node(&a);
+	assertEqual(*(signed char *)new_node->data, a);
+	free(new_node);
+}
+void test_create_node_create_a_new_node_with_unsigned_char_data_type(){
+	unsigned char a = 255;
+	Node *new_node = create_node(&a);
+	assertEqual(*(unsigned char *)new_node->data, a);
+	free(new_node);
+}
+void test_create_node_create_a_new_node_with_signed_char_data_type(){
+	signed char a = 122;
+	Node *new_node = create_node(&a);
+	assertEqual(*(string)new_node->data, a);
+	free(new_node);
+}
+void test_create_node_create_a_new_node_with_string_data_type(){
+	string a = "head";
+	Node *new_node = create_node(&a);
+	assertEqual(strcmp(*(string *)new_node->data, "head"),0);
+	free(new_node);
+}
+void test_create_node_create_a_new_node_with_a_double_data_type(){
+	double a = 22.1;
+	Node *new_node = create_node(&a);
+	assertEqual(*(double*)new_node->data, a);
+	free(new_node);
+}
+void test_create_node_create_a_new_node_with_a_longint_data_type(){
+	long int a = 12345678;
+	Node *new_node = create_node(&a);
+	assertEqual(*(long int*)new_node->data, a);
+	free(new_node);
+}
+void test_add_to_list_add_an_integer_data_to_a_list(){
+	int a= 5;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	assertEqual(*(int *)(list.head)->data, 5);
+}
+void test_add_to_list_add_a_char_data_to_a_list(){
+	char a = 'a';
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list,node);
+	assertEqual(*(char *)(list.head)->data, 'a');
+}
+void test_add_to_list_add_a_float_data_to_a_list(){
+	float a = 1.2;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list,node);
+	assertEqual(*(float *)(list.head)->data, (float)1.2);
+}
+void test_add_to_list_add_a_string_data_to_a_list(){
+	string a = "hiii";
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list,node);
+	assertEqual(strcmp(*(string *)(list.head)->data, "hiii"),0);
+	free(node);
+}
+void test_add_to_list_add_a_double_data_to_a_list(){
+	double a = 1.2;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list,node);
+	assertEqual(*(double *)(list.head)->data, (double)1.2);
+	free(node);
+}
+void test_add_to_list_add_a_long_int_data_to_a_list(){
+	long int a = 12345678;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list,node);
+	assertEqual(*(long int *)(list.head)->data, (long int)12345678);
+	free(node);
+}
+void test_add_to_list_add_a_signed_char_data_to_a_list(){
+	signed char a = 123;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list,node);
+	assertEqual(*(signed char *)(list.head)->data, (signed char)123);
+	free(node);
+}
+void test_add_to_list_add_a_unsigned_char_data_to_a_list(){
+	unsigned char a = 255;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list,node);
+	assertEqual(*(unsigned char *)(list.head)->data, (unsigned char)255);
+	free(node);
+}
+void test_add_to_list_add_two_integer_data__to_a_list(){
+	int a=5, b=6;
+	LinkList list = createList();
+	Node *first_node  = create_node(&a);
+	Node *second_node  = create_node(&b);
+	add_to_list(&list, first_node);
+	assertEqual(*(int *)(list.head)->data, 5);
+	add_to_list(&list, second_node);
+	assertEqual(*(int *)(list.tail)->data, 6);
+	free(first_node);
+	free(second_node);
+}
+void test_add_to_list_add_two_float_data__to_a_list(){
+	float a=1.2, b=2.3;
+	LinkList list = createList();
+	Node *first_node  = create_node(&a);
+	Node *second_node  = create_node(&b);
+	add_to_list(&list, first_node);
+	assertEqual(*(float *)(list.head)->data, (float)1.2);
+	add_to_list(&list, second_node);
+	assertEqual(*(float *)(list.tail)->data, (float)2.3);
+	free(first_node);
+	free(second_node);
+}
+void test_add_to_list_add_two_char_data__to_a_list(){
+	char a='a', b='b';
+	LinkList list = createList();
+	Node *first_node  = create_node(&a);
+	Node *second_node  = create_node(&b);
+	add_to_list(&list, first_node);
+	assertEqual(*(char *)(list.head)->data, 'a');
+	add_to_list(&list, second_node);
+	assertEqual(*(char *)(list.tail)->data, 'b');
+	free(first_node);
+	free(second_node);
+}
+void test_add_to_list_add_two_double_data__to_a_list(){
+	double a=2.2, b=3.3;
+	LinkList list = createList();
+	Node *first_node  = create_node(&a);
+	Node *second_node  = create_node(&b);
+	add_to_list(&list, first_node);
+	assertEqual(*(double *)(list.head)->data, (double)2.2);
+	add_to_list(&list, second_node);
+	assertEqual(*(double *)(list.tail)->data, (double)3.3);
+	free(first_node);
+	free(second_node);
+}
+void test_add_to_list_add_two_signed_char_data__to_a_list(){
+	signed char a=122, b=123;
+	LinkList list = createList();
+	Node *first_node  = create_node(&a);
+	Node *second_node  = create_node(&b);
+	add_to_list(&list, first_node);
+	assertEqual(*(signed char *)(list.head)->data, (signed char)122);
+	add_to_list(&list, second_node);
+	assertEqual(*(signed char *)(list.tail)->data, (signed char)123);
+	free(first_node);
+	free(second_node);
+}
+void test_add_to_list_add_two_unsigned_char_data__to_a_list(){
+	unsigned char a = 255, b = 254;
+	LinkList list = createList();
+	Node *first_node  = create_node(&a);
+	Node *second_node  = create_node(&b);
+	add_to_list(&list, first_node);
+	assertEqual(*(unsigned char *)(list.head)->data, (unsigned char)255);
+	add_to_list(&list, second_node);
+	assertEqual(*(unsigned char *)(list.tail)->data, (unsigned char)254);
+	free(first_node);
+	free(second_node);
+}
+void test_add_to_list_add_two_string_data__to_a_list(){
+	string a = "ant" , b = "bat";
+	LinkList list = createList();
+	Node *first_node  = create_node(&a);
+	Node *second_node  = create_node(&b);
+	add_to_list(&list, first_node);
+	assertEqual(strcmp(*(string  *)(list.head)->data, "ant"),0);
+	add_to_list(&list, second_node);
+	assertEqual(strcmp(*(string  *)(list.tail)->data, "bat"),0);
+	free(first_node);
+	free(second_node);
+}
+void test_add_to_list_add_two_different_data_type_to_the_list(){
+	int  a = 12;
+	float b = 5.5;
+	LinkList list = createList();
+	Node *first_node  = create_node(&a);
+	Node *second_node  = create_node(&b);
+	add_to_list(&list, first_node);
+	assertEqual(*(int *)(list.head)->data, 12);
+	add_to_list(&list, second_node);
+	assertEqual(*(float *)(list.tail)->data, (float)5.5);
+	free(first_node);
+	free(second_node);
+}
+void test_add_to_list_add_more_that_two_element_of_integer_type(){
+	int a=12, b=13, c = 15;
+	LinkList list = createList();
+	Node *first_node = create_node(&a);
+	Node *second_node = create_node(&b);
+	Node *third_node = create_node(&c);
+	add_to_list(&list, first_node);
+	assertEqual(*(int *)(list.head)->data, 12);
+	add_to_list(&list, second_node);
+	assertEqual(*(int *)(list.tail)->data, 13);
+	add_to_list(&list, third_node);
+	assertEqual(*(int *)(list.tail)->data, 15);
+	free(first_node);
+	free(second_node);
+	free(third_node);
+}
+void test_get_first_element_should_get_the_first_integer_element_from_the_linked_list(){
+	int a = 5, *result;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	result = get_first_element(list);
+	assertEqual(*result, a);
+	free(node);
+}
+void test_get_first_element_should_get_the_first_float_element_from_the_linked_list(){
+	float a = 5.2, *result;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	result = get_first_element(list);
+	assertEqual(*result, a);
+	free(node);
+}
+void test_get_first_element_should_get_the_first_char_element_from_the_linked_list(){
+	char a = 'a', *result;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	result = get_first_element(list);
+	assertEqual(*result, a);
+	free(node);
+}
+void test_get_first_element_should_get_the_first_signed_char_element_from_the_linked_list(){
+	signed char a = 123, *result;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	result = get_first_element(list);
+	assertEqual(*result, a);
+	free(node);
+}
+void test_get_first_element_should_get_the_first_unsigned_char_element_from_the_linked_list(){
+	unsigned char a = 255, *result;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	result = get_first_element(list);
+	assertEqual(*result, a);
+	free(node);
+}
+void test_get_first_element_should_get_the_first_string_element_from_the_linked_list(){
+	string a = "hiii", *result;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	result = get_first_element(list);
+	assertEqual(strcmp(*result, "hiii"),0);	
+	free(node);
+}
+void test_get_first_element_should_get_the_first_double_element_from_the_linked_list(){
+	double a = 2.2, *result;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	result = get_first_element(list);
+	assertEqual((*(double *)result), (double)2.2);
+	free(node);	
+}
+void get_first_element_will_returns_null_if_no_element_in_a_List(){
+	int *result;
+	LinkList list = createList();
+	result = get_first_element(list);
+	assertEqual(*(int *)result, 0);
+}
+void test_get_last_element_should_get_the_last_int_element_from_the_linked_list(){
+	int a = 5, *result;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	result = get_last_element(list);
+	assertEqual(*(int *)result, 5);
+	free(node);	
+}
+void test_get_last_element_should_get_the_last_float_element_from_the_linked_list(){
+	float a = 1.2, *result;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	result = get_last_element(list);
+	assertEqual(*(float *)result, (float)1.2);
+	free(node);
+}
+void test_get_last_element_should_get_the_last_double_element_from_the_linked_list(){
+	double a = 1.2, *result;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	result = get_last_element(list);
+	assertEqual(*(double *)result, (double)1.2);
+	free(node);
+}
+void test_get_last_element_should_get_the_last_char_element_from_the_linked_list(){
+	char a = 'a', *result;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	result = get_last_element(list);
+	assertEqual(*(string)result, a);
+	free(node);
+}
+void test_get_last_element_should_get_the_last_signed_char_element_from_the_linked_list(){
+	signed char a = 122, *result;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	result = get_last_element(list);
+	assertEqual(*(signed char *)result, (signed char)122);
+	free(node);
+}
+void test_get_last_element_should_get_the_last_unsigned_char_element_from_the_linked_list(){
+	unsigned char a = 255, *result;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	result = get_last_element(list);
+	assertEqual(*(unsigned char *)result, (unsigned char)255);
+	free(node);
+}
+void test_get_last_element_should_get_the_last_long_int_element_from_the_linked_list(){
+	long int a = 123456789, *result;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	result = get_last_element(list);
+	assertEqual(*(long int *)result, a);
+	free(node);
+}
+void test_get_last_element_should_get_the_last_string_element_from_the_linked_list(){
+	string a = "hello", *result;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	result = get_last_element(list);
+	assertEqual(strcmp(*result, "hello"),0);
+	free(node);		
+}
+void test_last_element_and_first_element_will_be_same_for_single_node_in_a_link_list(){
+	int a = 12, *result1, *result2;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	result1 = get_first_element(list);
+	result2 = get_last_element(list);
+	assertEqual(*(int *)result1, a);	
+	assertEqual(*(int *)result2, a);
+	free(node);
+}
+void test_the_last_element_should_get_the_last_element_everytime(){
+	int a=1,b=2,c=3, *result;
+	LinkList list = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	result = get_last_element(list);
+	assertEqual(*(int*)result, a);
+	add_to_list(&list, secondNode);
+	result = get_last_element(list);
+	assertEqual(*(int*)result, b);
+	add_to_list(&list, thirdNode);
+	result = get_last_element(list);
+	assertEqual(*(int*)result, c);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);	
+}
+void increamentby1(void *data){
+	*(int*)data +=1;
+}
 
-void test_createList_creates_an_empty_link_list(){
-	list = createList();
+void test_travarse_increase_each_element_value_by_1_for_1_node_in_a_list(){
+	int a=5;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	traverse(list, increamentby1);
+	assertEqual(*(int*)(*(Node*)(list.head)).data, 6);
+	free(node);
+}
+
+void increamentby2(void *data){
+	*(float *)data +=2;
+}
+
+void test_travarse_increase_each_element_value_by_2_for_1_node_in_a_list(){
+	float a=2.2;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	traverse(list, increamentby2);
+	assertEqual(*(float*)(*(Node*)(list.head)).data, (float)4.4);
+	free(node);
+}
+
+void increamentby3(void *data){
+	*(double *)data +=3;
+}
+
+void test_travarse_increase_each_element_value_by_3_for_1_node_in_a_list(){
+	double a=2.2;
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	traverse(list, increamentby3);
+	assertEqual(*(double*)(*(Node*)(list.head)).data, (double)5.4);
+	free(node);
+}
+
+void toUppercase(void *data){
+	*(char*)data -=32; 
+}
+void test_travarse_change_the_lower_case_to_upperCase(){
+	char  a='a';
+	LinkList list = createList();
+	Node *node = create_node(&a);
+	add_to_list(&list, node);
+	traverse(list, toUppercase);
+	assertEqual(*(char*)(*(Node*)(list.head)).data, (char)'A');
+	free(node);
+}
+void test_travarse_change_the_lower_case_to_upperCase_for_all_element(){
+	char  a='a' , b='b' , c= 'c';
+	LinkList list = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+
+	traverse(list, toUppercase);
+	assertEqual(*(char*)firstNode->data , (char)'A');
+	assertEqual(*(char*)secondNode->data, (char)'B');
+	assertEqual(*(char*)thirdNode->data, (char)'C');
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);
+}
+void test_getElementAt_get_the_element_from_the_link_list_according_to_the_index(){
+	int a = 5 , b= 6, c= 7 , result;
+	LinkList list = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	assertEqual(*(int*)getElementAt(list,1),6);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);
+}
+void test_getElementAt_get_the_second_element_from_a_character_link_list(){
+	char a= 'a',  b= 'b', c = 'c';
+	LinkList list = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	assertEqual(*(char*)getElementAt(list,1),'b');
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);
+}
+void test_getElementAt_get_the_second_element_from_the_float_list(){
+	float a= 1.1,  b= 2.2, c = 3.3;
+	LinkList list = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	assertEqual(*(float *)getElementAt(list,1),(float)2.2);	
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);
+}
+void test_getElementAt_get_the_second_element_from_the_double_list(){
+	double a= 1.1,  b= 2.2, c = 3.3;
+	LinkList list = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	assertEqual(*(double *)getElementAt(list,1),(double)2.2);	
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);
+}
+void test_getElementAt_get_the_second_element_from_the_unsigned_char_list(){
+	unsigned char  a= 255,  b= 254, c = 253;
+	LinkList list = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	assertEqual(*(unsigned char*)getElementAt(list,1),(unsigned char)254);	
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);
+}
+void test_getElementAt_get_the_second_element_from_the_signed_char_list(){
+	signed char  a= 100,  b= 101, c = 102;
+	LinkList list = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	assertEqual(*(signed char*)getElementAt(list,1),(signed char)101);	
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);
+}
+void test_getElementAt_get_the_second_element_from_the_string_list(){
+	string  a="hii",  b= "hello", c = "bye";
+	LinkList list = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	assertEqual(strcmp(*(string*)getElementAt(list,1),"hello"),0);	
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);
+}
+void test_indexOf_returns_the_index_from_an_integer_linkList_for_given_element(){
+	int  a= 1,  b= 2, c = 3;
+	LinkList list = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	int element = 1;
+
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	assertEqual(indexOf(list,&element),0);	
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);
+}
+void test_indexOf_returns_the_index_from_an_float_linkLink_for_given_element(){
+	float  a= 1.4,  b= 2.5, c = 3.6;
+	float element = 2.5;
+	LinkList list = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	assertEqual(indexOf(list,&element),1);		
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);
+}
+
+void test_indexOf_returns_the_index_from_an_character_linklist_for_given_element(){
+	char  a= 'a',  b='b', c = 'c';
+	char element = 'c';
+	LinkList list = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	assertEqual(indexOf(list,&element),2);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);			
+}
+
+void test_indexOf_returns_the_index_from_an_double_linklist_for_given_element(){
+	double  a= 2.1,  b=3.4, c = 6.4;
+	double element = 3.4;
+	LinkList list = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	assertEqual(indexOf(list, &element),1);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);				
+}
+
+void test_indexOf_returns_the_index_from_an_signed_char_linklist_for_given_element(){
+	signed char  a= 100,  b=101, c = 102;
+	signed char element = 101;
+	LinkList list = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	assertEqual(indexOf(list, &element),1);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);	
+}
+
+void test_indexOf_returns_the_index_from_an_unsigned_char_linklist_for_given_element(){
+	unsigned char  a= 255,  b=254, c = 253;
+	unsigned char element = 253;
+	LinkList list = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	assertEqual(indexOf(list, &element),2);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);	
+}
+
+void test_indexOf_returns_the_index_from_an_long_int_linklist_for_given_element(){
+	long int  a= 123456789,  b=123456788, c = 123456787;
+	long int element = 123456789;
+	LinkList list = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	assertEqual(indexOf(list, &element),0);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);		
+}
+void test_indexOf_returns_the_index_from_an_string_linklist_for_given_element(){
+	string  a= "hello",  b="hiiii", c = "bye";
+	string element = "bye";
+	LinkList list = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	assertEqual(indexOf(list, &element),2);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);	
+}
+void test_deleteElement_delete_an_element(){
+	int removed_element;
+	int a=2, b=4, c=6 , index = 1;
+	LinkList list  = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode  = create_node(&b);
+	Node *thirdNode = create_node(&c);
+
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+
+	assertEqual(list.numOfElements, 3);	
+	removed_element= *(int*)deleteElementAt(&list,index); 
+	assertEqual(list.numOfElements, 2);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);	
+}
+void test_deleteElement_returns_the_deleted_value(){
+	int removed_element;
+	int a=2, b=4, c=6 , index = 1;
+	LinkList list  = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode  = create_node(&b);
+	Node *thirdNode = create_node(&c);
+
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+
+	removed_element= *(int*)deleteElementAt(&list,index); 
+	assertEqual(removed_element, 4);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);		
+}
+
+void test_deleteElement_returns_0_when_a_list_has_one_node(){
+	void * removed_element;
+	int a=2, index = 0;
+	LinkList list  = createList();
+	Node *firstNode = create_node(&a);
+	removed_element= deleteElementAt(&list,index); 
 	assertEqual((int)list.head, 0);
-	assertEqual((int)list.tail, 0);
-	assertEqual(list.count, 0);
+	free(firstNode);
 }
-
-void test_add_to_list_return_1_for_adding_a_node_to_a_list(){
-	list_ptr = &list;
-	number = 10;
-	new_node = create_node(data);
-	list = createList();
-	assertEqual(add_to_list(list_ptr, new_node), 1);
-	free(new_node);
+void test_deleteElement_should_returns_null_if_index_is_wrong(){
+	void * removed_element;
+	int a=2, index = 5;
+	LinkList list  = createList();
+	Node *firstNode = create_node(&a);
+	removed_element= deleteElementAt(&list,index); 
+	assertEqual((int)removed_element, 0);
+	free(firstNode);	
 }
-
-
-void test_add_to_list_should_increments_count_to_1_if_node_added_to_Linked_List(){
-	list_ptr = &list;
-	number = 10;
-	new_node = create_node(data);
-	new_node2 = create_node(data);
-	list = createList();
-	add_to_list(list_ptr, new_node);
-	assertEqual(list.count, 1);
-	add_to_list(list_ptr, new_node2);
-	assertEqual(list.count, 2);
-	free(new_node);
-	free(new_node2);
-} 
-void test_add_to_list_should_set_head_as_address_of_first_node(){
-	list_ptr = &list;
-	number = 10;
-	new_node = create_node(data);
-	list = createList();
-	add_to_list(list_ptr, new_node);
-	assert(new_node==list.head);
-	free(new_node);
+void test_deleteElement_should_return_null_if_linklist_is_empty(){
+	void * removed_element;
+	int index = 0;
+	LinkList list  = createList();
+	removed_element= deleteElementAt(&list,index); 
+	assertEqual((int)removed_element, 0);
 }
+void test_deleteElement_delete_the_first_element_and_head_should_be_change(){
+	void * removed_element;
+	int a=2, b=4, c=6 , index = 0;
+	LinkList list  = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode  = create_node(&b);
+	Node *thirdNode = create_node(&c);
 
-void test_add_to_list_should_set_tail_as_address_of_last_node(){
-	list_ptr = &list;
-	number = 10;
-	new_node = create_node(data);
-	new_node2 = create_node(data);
-	list = createList();
-	add_to_list(list_ptr, new_node);
-	add_to_list(list_ptr, new_node2);
-	assert(new_node2==list.tail);
-	free(new_node);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	assertEqual(*(int*)list.head->data, 2);
+	removed_element= deleteElementAt(&list,index); 
+	assertEqual(*(int*)list.head->data, 4);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);			
 }
-
-void test_get_first_element_should_return_head_of_given_linked_list(){
-	list_ptr = &list;
-	number = 10;
-	new_node = create_node(data);
-	list = createList();
-	add_to_list(list_ptr, new_node);
-	assert((Node_ptr)get_first_element(list)==list.head);
-	free(new_node);
+void test_deleteElement_delete_the_last_element_and_tail_should_be_changed(){
+	void * removed_element;
+	int a=2, b=4, c=6 , index = 2;
+	LinkList list  = createList();
+	Node *firstNode = create_node(&a);
+	Node *secondNode = create_node(&b);
+	Node *thirdNode = create_node(&c);
+	add_to_list(&list, firstNode);
+	add_to_list(&list, secondNode);
+	add_to_list(&list, thirdNode);
+	assertEqual(*(int*)(list.tail->data), 6);
+	removed_element= deleteElementAt(&list,index); 
+	assertEqual(*(int*)(list.tail->data), 4);
+	free(firstNode);
+	free(secondNode);
+	free(thirdNode);				
 }
-
-void test_get_last_element_should_return_tail_of_given_linked_list_if_head_and_tail_are_same(){
-	list_ptr = &list;
-	number = 10;
-	new_node = create_node(data);
-	list = createList();
-	add_to_list(list_ptr, new_node);
-	assert((Node_ptr)get_first_element(list)==list.tail);
-	free(new_node);
-}
-
-void test_get_last_element_should_return_tail_of_given_linked_list_if_head_and_tail_are_different(){
-	list_ptr = &list;
-	number = 10;
-	new_node = create_node(data);
-	new_node2 = create_node(data);
-	list = createList();
-	add_to_list(list_ptr, new_node);
-	add_to_list(list_ptr, new_node2);
-	assert((Node_ptr)get_last_element(list)==list.tail);
-	free(new_node);
-	free(new_node2);
-}
-
-void increment(void* data){
-	*(int*)data += 1;
-}
-
-void test_traverse_should_increment_all_list_elements_by_1_with_increment_function_in_INT(){
-	int a = 10, b = 20, c = 30;
-	Node_ptr new_node3;
-	list_ptr = &list;
-	data = &a;
-	new_node = create_node(data);
-	data = &b;
-	new_node2 = create_node(data);
-	data = &c;
-	new_node3 = create_node(data);
-	list = createList();
-	add_to_list(list_ptr, new_node);
-	add_to_list(list_ptr, new_node2);
-	add_to_list(list_ptr, new_node3);
-	traverse(list,increment);
-	assertEqual(*(int*)new_node->data, 11);
-	assertEqual(*(int*)new_node2->data, 21);
-	assertEqual(*(int*)new_node3->data, 31);
-	free(new_node);
-	free(new_node2);
-	free(new_node3);
-}
-
-void myToUpper(void* data){
-	*(char*)data = (char)toupper(*(char*)data);
-}
-
-void test_traverse_should_convert_all_list_chars_in_upperCase_with_myToUpper_function_in_CHAR(){
-	char a = 'a', b = 'b', c = 'c';
-	Node_ptr new_node3;
-	list_ptr = &list;
-	data = &a;
-	new_node = create_node(data);
-	data = &b;
-	new_node2 = create_node(data);
-	data = &c;
-	new_node3 = create_node(data);
-	list = createList();
-	add_to_list(list_ptr, new_node);
-	add_to_list(list_ptr, new_node2);
-	add_to_list(list_ptr, new_node3);
-	traverse(list,myToUpper);
-	assertEqual(*(char*)new_node->data, 'A');
-	assertEqual(*(char*)new_node2->data, 'B');
-	assertEqual(*(char*)new_node3->data, 'C');
-	free(new_node);
-	free(new_node2);
-	free(new_node3);
-}
-
-void myCeil(void* data){
-	*(float*)data = (float)ceil(*(float*)data);
-}
-
-void test_traverse_should_convert_all_list_float_in_their_Ceil_value_with_myCeil_function_in_FLOAT(){
-	float a = 1.54, b = 0.012, c = 99.9;
-	Node_ptr new_node3;
-	list_ptr = &list;
-	data = &a;
-	new_node = create_node(data);
-	data = &b;
-	new_node2 = create_node(data);
-	data = &c;
-	new_node3 = create_node(data);
-	list = createList();
-	add_to_list(list_ptr, new_node);
-	add_to_list(list_ptr, new_node2);
-	add_to_list(list_ptr, new_node3);
-	traverse(list,myCeil);
-	assertEqual(*(float*)new_node->data, 2.000000);
-	assertEqual(*(float*)new_node2->data, 1.000000);
-	assertEqual(*(float*)new_node3->data, 100.000000);
-	free(new_node);
-	free(new_node2);
-	free(new_node3);
-}
-
-void myFloor(void* data){
-	*(double*)data = (double)floor(*(double*)data);
-}
-
-void test_traverse_should_convert_all_list_double_in_their_floor_value_with_myFloor_function_in_DOUBLE(){
-	double a = 1.54, b = 0.012, c = 99.9;
-	Node_ptr new_node3;
-	list_ptr = &list;
-	data = &a;
-	new_node = create_node(data);
-	data = &b;
-	new_node2 = create_node(data);
-	data = &c;
-	new_node3 = create_node(data);
-	list = createList();
-	add_to_list(list_ptr, new_node);
-	add_to_list(list_ptr, new_node2);
-	add_to_list(list_ptr, new_node3);
-	traverse(list,myFloor);
-	assertEqual(*(double*)new_node->data, 1.000000);
-	assertEqual(*(double*)new_node2->data, 0.000000);
-	assertEqual(*(double*)new_node3->data, 99.000000);
-	free(new_node);
-	free(new_node2);
-	free(new_node3);
-}
-
-void stringToUpper(void* data){
-	int i, length = strlen(data);
-	for(i=0; i < length; i++){
-		((char*)data)[i] = (char)toupper(((char*)data)[i]);
-	}
-}
-
-void test_traverse_should_convert_string_to_upperCase_with_stringToUpper_function_for_STRING(){
-	char a[] = "Jungle Jungle baat chali hai";
-	char expected[] = "JUNGLE JUNGLE BAAT CHALI HAI";
-	list_ptr = &list;
-	data = a;
-	new_node = create_node(data);
-	list = createList();
-	add_to_list(list_ptr, new_node);
-	traverse(list,stringToUpper);
-	assertEqual(strcmp((char*)new_node->data,expected),0);
-	free(new_node);
-}
-
-void test_getElementAt_should_return_NULL_if_given_index_is_not_exist_in_list_of_INT(){
-	list_ptr = &list;
-	number = 10;
-	new_node = create_node(data);
-	new_node2 = create_node(data);
-	list = createList();
-	add_to_list(list_ptr, new_node);
-	add_to_list(list_ptr, new_node2);
-	assert(getElementAt(list,3)==NULL);
-	free(new_node);
-	free(new_node2);
-}
-
-void test_getElementAt_should_return_element_on_the_given_index_in_list_of_CHAR(){
-	char a = 'a', b = 'b', c = 'c';
-	Node_ptr new_node3;
-	list_ptr = &list;
-	data = &a;
-	new_node = create_node(data);
-	data = &b;
-	new_node2 = create_node(data);
-	data = &c;
-	new_node3 = create_node(data);
-	list = createList();
-	add_to_list(list_ptr, new_node);
-	add_to_list(list_ptr, new_node2);
-	add_to_list(list_ptr, new_node3);
-	assert(*(char*)getElementAt(list,0)==a);
-	assert(*(char*)getElementAt(list,1)==b);
-	assert(*(char*)getElementAt(list,2)==c);
-	free(new_node);
-	free(new_node2);
-	free(new_node3);
-}
-
-void test_indexOf_should_return_minus_1_if_given_element_is_not_found_in_list(){
-	int num = 12;
-	list_ptr = &list;
-	number = 10;
-	new_node = create_node(data);
-	list = createList();
-	add_to_list(list_ptr, new_node);
-	assertEqual(indexOf(list,&num),-1);
-	free(new_node);
-}
-
-void test_indexOf_should_return_index_of_given_element_if_found_in_list_of_INT(){
-	list_ptr = &list;
-	number = 10;
-	new_node = create_node(data);
-	list = createList();
-	add_to_list(list_ptr, new_node);
-	assertEqual(indexOf(list,data),0);
-	free(new_node);
-}
-
-void test_indexOf_should_return_index_of_given_element_if_found_in_list_of_CHAR(){
-	char a = 'a', b = 'b', c = 'c',d = 'd';
-	Node_ptr new_node3;
-	list_ptr = &list;
-	data = &a;
-	new_node = create_node(data);
-	data = &b;
-	new_node2 = create_node(data);
-	data = &c;
-	new_node3 = create_node(data);
-	list = createList();
-	add_to_list(list_ptr, new_node);
-	add_to_list(list_ptr, new_node2);
-	add_to_list(list_ptr, new_node3);
-	assertEqual(indexOf(list,&a),0);
-	assertEqual(indexOf(list,&b),1);
-	assertEqual(indexOf(list,&c),2);
-	assertEqual(indexOf(list,&d),-1);
-	free(new_node);
-	free(new_node2);
-	free(new_node3);
-}
-
-
-// void test_createList_001() {
-// 	log("create list creates a blank list");
-// 	LinkedList list = createList(),tmp = {0,0,0};
-// 	assertEqual(list.head,tmp.head);
-// 	assertEqual(list.count,tmp.count);
-// 	assertEqual(list.tail,tmp.tail);
-// }
-
-// void test_create_node_001() {
-// 	log("create_node creates a node with given integer");
-// 	int c = 9;
-// 	Node *intNode = create_node(&c);
-// 	assertEqual(*(int *)((*intNode).data),9);
-// 	assertEqual((*intNode).next,0);
-// }
-
-// void test_create_node_002() {
-// 	log("create_node creates a node with given character");
-// 	char c = 'A';
-// 	Node *intNode = create_node(&c);
-// 	assertEqual(*(char *)((*intNode).data),'A');
-// 	assertEqual((*intNode).next,0);
-// }
-
-// void test_create_node_003() {
-// 	log("create_node creates a node with given string");
-// 	string c = "Prasenjit";
-// 	Node *intNode = create_node(&c);
-// 	assertEqual(*(string *)((*intNode).data),"Prasenjit");
-// 	assertEqual((*intNode).next,0);
-// }
-
-// void test_create_node_004() {
-// 	log("create_node creates a node with given float");
-// 	float c = 19.2;
-// 	Node *intNode = create_node(&c);
-// 	assertEqual(*(float *)((*intNode).data),19.2);
-// 	assertEqual((*intNode).next,0);
-// }
-
-// void test_create_node_005() {
-// 	log("create_node creates a node with given double");
-// 	double c = 19.2;
-// 	Node *intNode = create_node(&c);
-// 	assertEqual(*(double *)((*intNode).data),19.2);
-// 	assertEqual((*intNode).next,0);
-// }
-
-// void test_create_node_006() {
-// 	log("create_node creates a node with given longint");
-// 	long int c = 2147483647;
-// 	Node *intNode = create_node(&c);
-// 	assertEqual(*(long int *)((*intNode).data),2147483647);
-// 	assertEqual((*intNode).next,0);
-// }
-
-// void test_create_node_007() {
-// 	log("create_node creates a node with given signed char");
-// 	signed char c = 127;
-// 	Node *intNode = create_node(&c);
-// 	assertEqual(*(signed char *)((*intNode).data),127);
-// 	assertEqual((*intNode).next,0);
-// }
-
-// void test_create_node_008() {
-// 	log("create_node creates a node with given unsigned char");
-// 	unsigned char c = 255;
-// 	Node *intNode = create_node(&c);
-// 	assertEqual(*(unsigned char *)((*intNode).data),255);
-// 	assertEqual((*intNode).next,0);
-// }
-
-// void test_add_to_list_001() {
-// 	log("adds an integer data element to the empty linklist");
-// 	int c = 9;
-// 	LinkedList list = createList();
-// 	Node *intNode = create_node(&c);
-// 	add_to_list(&list,intNode);
-// 	assertEqual(*(int *)(*(list.head)).data,9);
-// }
-
-// void test_add_to_list_002() {
-// 	log("adds an integer data element to the existing linklist");
-// 	int c = 9,d = 10;
-// 	LinkedList list = createList();
-// 	Node *node1 = create_node(&c),*node2 = create_node(&d);
-// 	add_to_list(&list,node1);
-// 	add_to_list(&list,node2);
-// 	assertEqual(*(int *)(*(list.head)).data,9);
-// 	assertEqual(*(int *)(*(list.tail)).data,10);
-// }
-
-// void test_add_to_list_003() {
-// 	log("adds an integer data element to the empty character linklist");
-// 	char c = 'A';
-// 	LinkedList list = createList();
-// 	Node *charNode = create_node(&c);
-// 	add_to_list(&list,charNode);
-// 	assertEqual(*(char *)(*(list.head)).data,'A');
-// }
-
-// void test_add_to_list_004() {
-// 	log("adds a character data element to the existing character linklist");
-// 	char c = 'A',d = 'B';
-// 	LinkedList list = createList();
-// 	Node *node1 = create_node(&c),*node2 = create_node(&d);
-// 	add_to_list(&list,node1);
-// 	add_to_list(&list,node2);
-// 	assertEqual(*(char *)(*(list.head)).data,'A');
-// 	assertEqual(*(char *)(*(list.tail)).data,'B');
-// }
-
-// void test_add_to_list_005() {
-// 	log("adds a string data element to the empty linklist for strings");
-// 	string c = "Prasenjit";
-// 	LinkedList list = createList();
-// 	Node *charNode = create_node(&c);
-// 	add_to_list(&list,charNode);
-// 	assertEqual(*(string *)(*(list.head)).data,"Prasenjit");
-// 	assertEqual(*(string *)(*(list.tail)).data,"Prasenjit");
-// }
-
-// void test_add_to_list_006() {
-// 	log("adds a string data element to the existing linklist for string");
-// 	string c = "Prasenjit",d = "Chakraborty";
-// 	LinkedList list = createList();
-// 	Node *node1 = create_node(&c),*node2 = create_node(&d);
-// 	add_to_list(&list,node1);
-// 	add_to_list(&list,node2);
-// 	assertEqual(*(string *)(*(list.head)).data,"Prasenjit");
-// 	// assertEqual(*(string *)(*(list.tail)).data,"Chakraborty"); Checkpoint
-// }
-
-// void test_add_to_list_007() {
-// 	log("adds a float data element to the empty linklist for floats");
-// 	float c = 72.3;
-// 	LinkedList list = createList();
-// 	Node *charNode = create_node(&c);
-// 	add_to_list(&list,charNode);
-// 	assertEqual(*(float *)(*(list.head)).data,72.3);
-// 	assertEqual(*(float *)(*(list.tail)).data,72.3);
-// }
-
-// void test_add_to_list_008() {
-// 	log("adds a float data element to the existing float linklist");
-// 	float c = 72.3,d = 65.3;
-// 	LinkedList list = createList();
-// 	Node *node1 = create_node(&c),*node2 = create_node(&d);
-// 	add_to_list(&list,node1);
-// 	add_to_list(&list,node2);
-// 	assertEqual(*(float *)(*(list.head)).data,72.3);
-// 	assertEqual(*(float *)(*(list.tail)).data,65.3);
-// }
-
-// void test_add_to_list_009() {
-// 	log("adds a long int data element to the empty linklist for long ints");
-// 	long int c = 2147483647;
-// 	LinkedList list = createList();
-// 	Node *charNode = create_node(&c);
-// 	add_to_list(&list,charNode);
-// 	assertEqual(*(long int *)(*(list.head)).data,2147483647);
-// 	assertEqual(*(long int *)(*(list.tail)).data,2147483647);
-// }
-
-// void test_add_to_list_010() {
-// 	log("adds a long int data element to the existing long int linklist");
-// 	long int c = 2147483647,d = 2147483646;
-// 	LinkedList list = createList();
-// 	Node *node1 = create_node(&c),*node2 = create_node(&d);
-// 	add_to_list(&list,node1);
-// 	add_to_list(&list,node2);
-// 	assertEqual(*(long int *)(*(list.head)).data,2147483647);
-// 	assertEqual(*(long int *)(*(list.tail)).data,2147483646);
-// }
-
-// void test_add_to_list_0011() {
-// 	log("adds a double data element to the empty linklist for doubles");
-// 	double c = 21.1;
-// 	LinkedList list = createList();
-// 	Node *charNode = create_node(&c);
-// 	add_to_list(&list,charNode);
-// 	assertEqual(*(double *)(*(list.head)).data,21.1);
-// 	assertEqual(*(double *)(*(list.tail)).data,21.1);
-// }
-
-// void test_add_to_list_012() {
-// 	log("adds a double data element to the existing double linklist");
-// 	double c = 21.1,d = 21.2;
-// 	LinkedList list = createList();
-// 	Node *node1 = create_node(&c),*node2 = create_node(&d);
-// 	add_to_list(&list,node1);
-// 	add_to_list(&list,node2);
-// 	assertEqual(*(double *)(*(list.head)).data,21.1);
-// 	assertEqual(*(double *)(*(list.tail)).data,21.2);
-// }
-
-// void test_get_first_element_001() {
-// 	log("gives the first element of the link list for integer");
-// 	int c = 9,*res;
-// 	LinkedList list = createList();
-// 	Node *intNode = create_node(&c);
-// 	add_to_list(&list,intNode);
-// 	res = get_first_element(list);
-// 	assertEqual(*res, 9);
-// }
-
-// void test_get_first_element_002() {
-// 	log("gives the first element of the link list for float");
-// 	float c = 9.2,*res;
-// 	LinkedList list = createList();
-// 	Node *intNode = create_node(&c);
-// 	add_to_list(&list,intNode);
-// 	res = get_first_element(list);
-// 	assertEqual(*res, 9.2);
-// }
-
-// void test_get_first_element_003() {
-// 	log("gives the first element of the link list for char");
-// 	char c = 'A',*res;
-// 	LinkedList list = createList();
-// 	Node *intNode = create_node(&c);
-// 	add_to_list(&list,intNode);
-// 	res = get_first_element(list);
-// 	assertEqual(*res, 'A');
-// }
-
-// void test_get_first_element_004() {
-// 	log("gives the first element of the link list for string");
-// 	string c = "Prasenjit",*res;
-// 	LinkedList list = createList();
-// 	Node *intNode = create_node(c);
-// 	add_to_list(&list,intNode);
-// 	res = get_first_element(list);
-// 	assertEqual(res, "Prasenjit");
-// }
-
-// void test_get_first_element_005() {
-// 	log("gives the first element of the link list for double");
-// 	double c = 19.2,*res;
-// 	LinkedList list = createList();
-// 	Node *intNode = create_node(&c);
-// 	add_to_list(&list,intNode);
-// 	res = get_first_element(list);
-// 	assertEqual(*res,19.2);
-// }
-
-// void test_get_first_element_006() {
-// 	log("gives the first element of the link list for long int");
-// 	long int c = 2147483647,*res;
-// 	LinkedList list = createList();
-// 	Node *intNode = create_node(&c);
-// 	add_to_list(&list,intNode);
-// 	res = get_first_element(list);
-// 	assertEqual(*res,2147483647);
-// }
-
-// void test_get_first_element_007() {
-// 	log("gives the first element of the link list for signed char");
-// 	signed char c = 127,*res;
-// 	LinkedList list = createList();
-// 	Node *intNode = create_node(&c);
-// 	add_to_list(&list,intNode);
-// 	res = get_first_element(list);
-// 	assertEqual(*res,127);
-// }
-
-// void test_get_first_element_008() {
-// 	log("gives the first element of the link list for unsigned char");
-// 	unsigned char c = 255,*res;
-// 	LinkedList list = createList();
-// 	Node *intNode = create_node(&c);
-// 	add_to_list(&list,intNode);
-// 	res = get_first_element(list);
-// 	assertEqual(*res,255);
-// }
-
-// void test_get_first_element_009() {
-// 	log("gives the first element of the link list for unsigned int");
-// 	unsigned int c =  4294967295,*res;
-// 	LinkedList list = createList();
-// 	Node *intNode = create_node(&c);
-// 	add_to_list(&list,intNode);
-// 	res = get_first_element(list);
-// 	assertEqual(*res, 4294967295);
-// }
-
-// void test_get_first_element_010() {
-// 	log("gives the first element of the link list for short int");
-// 	short int c =  32767,*res;
-// 	LinkedList list = createList();
-// 	Node *intNode = create_node(&c);
-// 	add_to_list(&list,intNode);
-// 	res = get_first_element(list);
-// 	assertEqual(*res, 32767);
-// }
-
-// void test_get_last_element_001() {
-// 	log("gives the last element of the link list if there is only one element for int linklist");
-// 	int c = 9,*res;
-// 	LinkedList list = createList();
-// 	Node *intNode = create_node(&c);
-// 	add_to_list(&list,intNode);
-// 	res = get_last_element(list);
-// 	assertEqual(*res, 9);
-// }
-
-// void test_get_last_element_002() {
-// 	log("gives the first element of the link list if there is only one element for float linklist");
-// 	float c = 9.5,*res;
-// 	LinkedList list = createList();
-// 	Node *intNode = create_node(&c);
-// 	add_to_list(&list,intNode);
-// 	res = get_last_element(list);
-// 	assertEqual(*res, 9.5);
-// }
-
-// void test_get_last_element_003() {
-// 	log("gives the first element of the link list if there is only one element for char linklist");
-// 	char c = 'A',*res;
-// 	LinkedList list = createList();
-// 	Node *intNode = create_node(&c);
-// 	add_to_list(&list,intNode);
-// 	res = get_last_element(list);
-// 	assertEqual(*res, 'A');
-// }
-
-// void test_get_last_element_004() {
-// 	log("gives the first element of the link list if there is only one element for string linklist");
-// 	string c = "Prasenjit",*res;
-// 	LinkedList list = createList();
-// 	Node *intNode = create_node(c);
-// 	add_to_list(&list,intNode);
-// 	res = get_last_element(list);
-// 	assertEqual(res, "Prasenjit");
-// }
-
-// void add(void* data) {
-// 	*(int*)data += 1;
-// }
-
-// void test_traverse_001() {
-// 	log("traverse through a int node and increases each element by one");
-// 	int c = 9;
-// 	LinkedList list = createList();
-// 	Node *intNode = create_node(&c);
-// 	add_to_list(&list,intNode);
-// 	traverse(list,add);
-// 	assertEqual(*(int*)(*(Node*)(list.head)).data, 10);
-// }
-
-// void test_getElementAt_001() {
-// 	log("getElementAt gives the data at given position for integer");
-// 	int c = 9,d = 10;
-// 	LinkedList list = createList();
-// 	Node *node1 = create_node(&c),*node2 = create_node(&d);
-// 	add_to_list(&list,node1);
-// 	add_to_list(&list,node2);
-// 	assertEqual(*((int*)getElementAt(list,0)),9);
-// 	assertEqual(*((int*)getElementAt(list,1)),10);
-// }
-
-// void test_indexOf_001() {
-// 	log("indexOf gives the position of the given element in an integer link list");
-// 	int c = 9,d = 10;
-// 	LinkedList list = createList();
-// 	Node *node1 = create_node(&c),*node2 = create_node(&d);
-// 	add_to_list(&list,node1);
-// 	add_to_list(&list,node2);
-// 	assertEqual(((int *)indexOf(list,&c)),0);
-// 	assertEqual(((int *)indexOf(list,&d)),1);
-// }
-
-// void test_deleteElementAt_001() {
-// 	log("deleteElementAt deletes the element at the given position");
-// 	int c = 9,d = 10,e = 11;
-// 	LinkedList list = createList();
-// 	Node *node1 = create_node(&c),*node2 = create_node(&d),*node3 = create_node(&e);
-// 	add_to_list(&list,node1);
-// 	add_to_list(&list,node2);
-// 	add_to_list(&list,node3);
-// 	assertEqual(((int *)indexOf(list,&e)),2);
-// 	deleteElementAt(list,1);
-// 	assertEqual(((int *)indexOf(list,&e)),1);
-// }

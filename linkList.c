@@ -1,68 +1,76 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "linkList.h"
 
-LinkedList createList(void){
-	LinkedList list;
-	list.head = 0;
-	list.tail = 0;
-	list.count = 0;
+
+LinkList createList(void){
+	LinkList list;
+	list.head = NULL;
+	list.tail = NULL;
+	list.numOfElements = 0;
 	return list;
-};
+}
 
 Node * create_node(void *data){
-	Node_ptr link = calloc(1,sizeof(Node));
-	link->data = data;
-	link->next = NULL;
-	return link;
-};
+	Node* new_node = malloc(sizeof(Node));
+	new_node->data = data;
+	new_node ->next = NULL;
+	return *(int*)data?new_node:0;
+}
 
-
-int add_to_list(LinkedList *list,Node *node){
-	(!list->head)?(list->head=node):(list->tail->next = node);
+int add_to_list(LinkList * list,Node * node){
+	if(!node) return 0;
+	!list->head?(list->head = node):(list->tail->next = node);
 	list->tail = node;
-	list->count++;
+	list->numOfElements++;
 	return 1;
-};
+}
 
-void *get_first_element(LinkedList list){
-	return list.head;
-};
+void *get_first_element(LinkList list){
+	return list.head->data;
+}
 
-void *get_last_element(LinkedList list){
-	return list.tail;
-};
-
-void traverse(LinkedList list, FunctionRef func){
-	Node_ptr walker = list.head;
-	while(walker != NULL){
-		 func(walker->data);
-		 walker = walker->next;
-	}
-};
-
-void * getElementAt(LinkedList list, int index){
+void *get_last_element(LinkList list){
+	return list.tail->data;
+}
+void traverse(LinkList list, void (*function)(void *data)){
+	Node *node;
+	for(node=list.head;node;node=node->next)
+		function(node->data);
+}
+void * getElementAt(LinkList list, int index){
 	int counter;
-	Node_ptr walker =list.head;
-	if(index>=list.count){
-		return NULL;
-	} 
-	for(counter=0;counter<index;counter++){
-		walker=walker->next;
-	}
-	return walker->data;
-};
-
-
-int indexOf(LinkedList list, void *element){
-	Node_ptr walker = list.head;
-	int index = 0;
-	while(walker != NULL){
-		if(walker->data == element)
-			return index;
-		 index++;
-		 walker = walker->next;
+	Node *node = list.head;
+	if(index>list.numOfElements)return 0;
+	for(counter = 0;counter<index;counter++)
+		node = node->next;
+	return node->data;
+}
+int indexOf(LinkList list, void *element){
+	int count=0;
+	Node *node;
+	for(node = list.head;node;node = node->next){
+		if(!memcmp(element,node->data , sizeof((void)element))) return count;
+		count++;		
 	}
 	return -1;
-};
+}
 
+void * deleteElementAt(LinkList *list, int index){
+	int counter; 
+	void *data;
+	Node *node=list->head , *previousNode = NULL;
+	if(index>=list->numOfElements || index<=-1) return NULL;
+	for(counter=0;counter<index;counter++){
+		previousNode = node; 
+		node=node->next;
+	}
+	(node==list->tail)&&(list->tail=previousNode)&&(list->tail->next=NULL);
+	data = node->data;
+	(previousNode)?(previousNode->next = node->next):(list->head = list->head->next);
+	list->numOfElements--;
+	// free(node);
+	// free(previousNode);
+	return data;
+}

@@ -1,32 +1,32 @@
-typedef struct linklist LinkedList;
-typedef struct node Node;
-typedef LinkedList *LinkedList_ptr;
-typedef Node *Node_ptr;
-struct node{
+typedef struct LinkList LinkList;
+typedef struct Node Node;
+struct LinkList{
+	Node *head;
+	Node *tail;
+	int numOfElements;
+};
+
+struct Node{
 	void *data;
 	Node *next;
 };
-struct linklist
-{
-	int count;
-	Node_ptr head;
-	Node_ptr tail;
-};
+
+LinkList createList(void);
 
 Node * create_node(void *data);
 
-LinkedList createList(void);
+int add_to_list(LinkList *,Node *);
 
-int add_to_list(LinkedList *,Node *);
+void *get_first_element(LinkList list);
 
-void *get_first_element(LinkedList list);
+void *get_last_element(LinkList list);
 
-void *get_last_element(LinkedList list);
+void traverse(LinkList, void (*)(void *data));
 
-typedef void (*FunctionRef)(void *data);
+void * getElementAt(LinkList, int );
 
-void traverse(LinkedList, FunctionRef);
+int indexOf(LinkList, void *);
 
-void * getElementAt(LinkedList, int);
+void * deleteElementAt(LinkList *, int);
 
-int indexOf(LinkedList list, void *element);
+int asArray(LinkList, void **);
